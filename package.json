@@ -15,7 +15,8 @@
     "test:lint": "eslint src --ext .ts",
     "test:prettier": "prettier \"src/**/*.ts\" --list-different",
     "test:unit": "jest",
-    "watch:test": "jest --watch"
+    "watch:test": "jest --watch",
+    "publish": "yarn publish --access public"
   },
   "devDependencies": {
     "eslint": "^8.11.0",
