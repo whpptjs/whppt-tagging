@@ -14,7 +14,7 @@ import { flatMap, map } from 'lodash';
 import { mapState } from 'vuex';
 import IncludedTags from './include';
 import ExcludedTags from './exclude';
-import Seclections from './seclections';
+import Seclections from './Seclections';
 
 export default {
   name: 'TagFilter',
