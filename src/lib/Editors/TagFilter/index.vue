@@ -4,8 +4,8 @@
       <h3 class="text-white">Filter Component By</h3>
     </div>
     <included-tags :tags="tags" class="mb-5"></included-tags>
-    <excluded-tags :tags="tags"></excluded-tags>
-    <seclections></seclections>
+    <excluded-tags :tags="tags" class="mb-5"></excluded-tags>
+    <selections></selections>
   </div>
 </template>
 
@@ -14,14 +14,14 @@ import { flatMap, map } from 'lodash';
 import { mapState } from 'vuex';
 import IncludedTags from './Include';
 import ExcludedTags from './Exclude';
-import Seclections from './Seclections';
+import Selections from './Selections';
 
 export default {
   name: 'TagFilter',
   components: {
     IncludedTags,
     ExcludedTags,
-    Seclections,
+    Selections,
   },
   computed: {
     ...mapState('whppt/config', ['domain']),
