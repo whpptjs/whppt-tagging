@@ -1,7 +1,7 @@
 module.exports = (developerTags) => ({
   exec({ $mongo: { $db } }, { domainId }) {
     return $db
-      .collection('Tags')
+      .collection('site')
       .findOne({ _id: `tags_${domainId}` })
       .then((settings) => {
         if (!settings) return combineTags(developerTags, []);

@@ -1,0 +1,77 @@
+<template>
+  <div>
+    <h4 class="text-white">Tags to exclude</h4>
+    <div class="mb-5">
+      <whppt-autocomplete
+        :value="excludeValue"
+        :items="tags"
+        itemText="id"
+        itemValue="id"
+        label="Select Tags to exclude"
+        @select="addTag($event, 'exclude')"
+      />
+    </div>
+    <div>
+      <div>Current Excluded Tags:</div>
+      <div class="flex flex-wrap items-center">
+        <div
+          v-for="excludedTag in selectedContentValue.exclude"
+          :key="excludedTag"
+          class="bg-white rounded-full text-black px-4 flex items-center mr-2 mb-2"
+        >
+          <p class="mr-2">
+            {{ excludedTag }}
+          </p>
+          <button @click="removeTag(excludedTag, 'exclude')"><close /></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { without, find } from 'lodash';
+import { mapState, mapActions } from 'vuex';
+
+import WhpptAutocomplete from '@whppt/nuxt/lib/components/ui/components/Autocomplete.vue';
+import Close from '@whppt/nuxt/lib/components/icons/Close.vue';
+export default {
+  name: 'TagFilter',
+  components: {
+    WhpptAutocomplete,
+    Close,
+  },
+  props: {
+    tags: { type: Array, default: () => [] },
+  },
+  computed: {
+    ...mapState('whppt/config', ['domain']),
+    ...mapState('whppt/editor', ['selectedComponent']),
+    selectedContentValue() {
+      return this.selectedComponent.value;
+    },
+  },
+  data() {
+    return {
+      excludeValue: '',
+    };
+  },
+
+  methods: {
+    ...mapActions('whppt/editor', ['pushSelectedComponentState', 'setSelectedComponentState']),
+    removeTag(tag, path) {
+      if (window.confirm('Are you sure?')) {
+        const removed = without(this.selectedComponent.value[path], tag);
+        this.setSelectedComponentState({ value: removed, path });
+      }
+    },
+    addTag(value, path) {
+      if (find(this.selectedContentValue[path], (p) => p === value.id)) return;
+      this.pushSelectedComponentState({
+        path: path,
+        value: value.id,
+      });
+    },
+  },
+};
+</script>
