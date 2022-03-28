@@ -12,6 +12,7 @@
 <script>
 import { flatMap, map } from 'lodash';
 import { mapState } from 'vuex';
+
 import IncludedTags from './Include';
 import ExcludedTags from './Exclude';
 import Selections from './Selections';
