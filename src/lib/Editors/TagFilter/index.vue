@@ -12,9 +12,9 @@
 <script>
 import { flatMap, map } from 'lodash';
 import { mapState } from 'vuex';
-import IncludedTags from './include';
-import ExcludedTags from './exclude';
-import Seclections from './seclections';
+import IncludedTags from './Include';
+import ExcludedTags from './Exclude';
+import Seclections from './Seclections';
 
 export default {
   name: 'TagFilter',
