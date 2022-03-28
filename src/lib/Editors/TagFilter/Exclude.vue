@@ -35,6 +35,7 @@ import { mapState, mapActions } from 'vuex';
 
 import WhpptAutocomplete from '@whppt/nuxt/lib/components/ui/components/Autocomplete.vue';
 import Close from '@whppt/nuxt/lib/components/icons/Close.vue';
+
 export default {
   name: 'TagFilter',
   components: {
