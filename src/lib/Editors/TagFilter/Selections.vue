@@ -1,13 +1,20 @@
 <template>
   <div>
     <div class="my-2">
-      <h3 class="text-white">Selections</h3>
+      <h4 class="text-white">Selections</h4>
       <div class="my-4">
         <label for="SelectionsFilter">Filter Selections</label>
         <whppt-input id="SelectionsFilter" v-model="filterValue"></whppt-input>
       </div>
-      <div v-for="item in filteredItems" :key="item" class="flex items-center w-full mb-2">
-        <whppt-checkbox :value="isSelected(item)" :label="item.name || 'Checkbox Label'" @change="check(item)" />
+      <div v-for="(item, index) in filteredItems" :key="`${item.name}_selected_${index}`">
+        <div v-if="isSelected(item)" class="flex items-center w-full mb-2">
+          <whppt-checkbox :value="isSelected(item)" :label="item.name || 'Checkbox Label'" @change="check(item)" />
+        </div>
+      </div>
+      <div v-for="(item, index) in filteredItems" :key="`${item.name}_${index}`">
+        <div v-if="!isSelected(item)" class="flex items-center w-full mb-2">
+          <whppt-checkbox :value="isSelected(item)" :label="item.name || 'Checkbox Label'" @change="check(item)" />
+        </div>
       </div>
     </div>
   </div>
@@ -16,7 +23,7 @@
 <script>
 import WhpptCheckbox from '@whppt/nuxt/lib/components/ui/components/Checkbox';
 import WhpptInput from '@whppt/nuxt/lib/components/ui/components/Input';
-import { debounce, filter, find, toLower, without } from 'lodash';
+import { debounce, filter, find, sortBy, toLower, without } from 'lodash';
 import { mapActions, mapState } from 'vuex';
 
 export default {
@@ -33,10 +40,15 @@ export default {
     ...mapState('whppt/config', ['domain']),
     ...mapState('whppt/editor', ['selectedComponent']),
     selectedContentValue() {
+      console.log(
+        '🚀 ~ file: Selections.vue ~ line 38 ~ selectedContentValue ~ this.selectedComponent.value',
+        this.selectedComponent.value
+      );
       return this.selectedComponent.value || {};
     },
     filteredItems() {
-      return filter(this.items, (i) => toLower(i.name).includes(toLower(this.filterValue)));
+      const filteredItems = filter(this.items, (i) => toLower(i.name).includes(toLower(this.filterValue)));
+      return sortBy(filteredItems, 'name');
     },
   },
   created() {
@@ -68,14 +80,14 @@ export default {
       return find(this.selectedContentValue && this.selectedContentValue.selected, (s) => s === value._id);
     },
     check(value) {
-      if (find(this.selectedContentValue && this.selectedContentValue.selected, (p) => p === value.id)) {
-        const removed = without(this.selectedContentValue && this.selectedComponent.value[path], tag);
-        this.setSelectedComponentState({ value: removed, path });
+      if (find(this.selectedContentValue && this.selectedContentValue.selected, (p) => p === value._id)) {
+        const removed = without(this.selectedContentValue && this.selectedComponent.value['selected'], value._id);
+        this.setSelectedComponentState({ value: removed, path: 'selected' });
         return;
       }
       this.pushSelectedComponentState({
         path: 'selected',
-        value: value.id,
+        value: value._id,
       });
     },
     watch: {

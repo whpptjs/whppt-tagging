@@ -5,6 +5,7 @@
     </div>
     <included-tags :tags="tags" class="mb-5"></included-tags>
     <excluded-tags :tags="tags" class="mb-5"></excluded-tags>
+    <dates class="mb-5"></dates>
     <selections></selections>
   </div>
 </template>
@@ -15,6 +16,7 @@ import { mapState } from 'vuex';
 
 import IncludedTags from './Include';
 import ExcludedTags from './Exclude';
+import Dates from './Dates';
 import Selections from './Selections';
 
 export default {
@@ -22,6 +24,7 @@ export default {
   components: {
     IncludedTags,
     ExcludedTags,
+    Dates,
     Selections,
   },
   computed: {
@@ -44,7 +47,6 @@ export default {
         this.tags = flatMap(categories, (c) => {
           return map(c.values, (v) => ({ id: `${c.id}:${v.id}`, name: `${c.id} - ${v.id}` }));
         });
-        console.log('🚀 ~ file: index.vue ~ line 43 ~ this.tags=flatMap ~ this.tags', this.tags);
         this.loading = false;
       });
     },
