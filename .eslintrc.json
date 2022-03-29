@@ -9,7 +9,6 @@
     "plugin:vue/recommended",
     "plugin:eslint-comments/recommended",
     "plugin:import/recommended",
-    "plugin:functional/lite",
     "prettier"
   ],
   "globals": {},

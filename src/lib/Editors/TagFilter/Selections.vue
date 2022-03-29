@@ -14,47 +14,55 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import { find, without, filter, toLower } from 'lodash';
 import WhpptCheckbox from '@whppt/nuxt/lib/components/ui/components/Checkbox';
 import WhpptInput from '@whppt/nuxt/lib/components/ui/components/Input';
+import { debounce, filter, find, toLower, without } from 'lodash';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'TagFilterSelections',
   components: { WhpptCheckbox, WhpptInput },
+  data() {
+    return {
+      loading: false,
+      filterValue: '',
+      items: [],
+    };
+  },
   computed: {
     ...mapState('whppt/config', ['domain']),
     ...mapState('whppt/editor', ['selectedComponent']),
     selectedContentValue() {
       return this.selectedComponent.value || {};
     },
-  },
-  computed: {
     filteredItems() {
       return filter(this.items, (i) => toLower(i.name).includes(toLower(this.filterValue)));
     },
   },
-  data() {
-    return {
-      loading: false,
-      filterValue: '',
-      items: [
-        { _id: 'test', name: 'Test 1' },
-        { _id: 'test2', name: 'Test 1qe' },
-        { _id: 'test3', name: 'Test eqwed1' },
-        { _id: 'test4', name: 'Test dd1' },
-        { _id: 'test5', name: 'Test 1' },
-        { _id: 'test6', name: 'Testcc 1' },
-        { _id: 'test7', name: 'Test zzzzz1' },
-      ],
-    };
+  created() {
+    this.debouncedLoadItems = debounce(this.loadItems, 500);
   },
   mounted() {
     this.filterTags();
+    this.debouncedLoadItems();
   },
   methods: {
     ...mapActions('whppt/editor', ['pushSelectedComponentState', 'setSelectedComponentState']),
 
+    loadItems() {
+      this.loading = true;
+      return this.$axios
+        .$post(`/api/teamMembers/list`, {
+          domainId: this.domain._id,
+          tagFilters: this.selectedContentValue,
+        })
+        .then((items) => {
+          this.items = items;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     filterTags() {},
     isSelected(value) {
       return find(this.selectedContentValue && this.selectedContentValue.selected, (s) => s === value._id);
@@ -69,6 +77,12 @@ export default {
         path: 'selected',
         value: value.id,
       });
+    },
+    watch: {
+      selectedContentValue: function () {
+        console.log('Watch value');
+        this.debouncedLoadItems();
+      },
     },
   },
 };

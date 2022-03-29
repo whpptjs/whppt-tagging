@@ -22,7 +22,7 @@
           <p class="mr-2">
             {{ includedTag }}
           </p>
-          <button @click="removeTag(includedTag, 'include')"><close /></button>
+          <button @click="removeTag(includedTag, 'include')"><close class="w-4" /></button>
         </div>
       </div>
     </div>

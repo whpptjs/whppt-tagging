@@ -16,13 +16,16 @@
     "test:prettier": "prettier \"src/**/*.ts\" --list-different",
     "test:unit": "jest",
     "watch:test": "jest --watch",
-    "publish": "yarn publish --access public"
+    "publish-example": "yarn publish -- --access public"
+  },
+  "dependencies": {
+    "@whppt/nuxt": "^2.0.0-rc61",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-functional": "^4.2.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-vue": "^8.5.0",
     "jest": "^27.5.1",
