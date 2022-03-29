@@ -3,10 +3,10 @@
     <div class="my-2">
       <h3 class="text-white">Filter Component By</h3>
     </div>
-    <included-tags :tags="tags" class="mb-5"></included-tags>
-    <excluded-tags :tags="tags" class="mb-5"></excluded-tags>
+    <included-tags :tags="tags" class="mb-5" @changed="$refs.selections.debouncedLoadItems()"></included-tags>
+    <excluded-tags :tags="tags" class="mb-5" @changed="$refs.selections.debouncedLoadItems()"></excluded-tags>
     <dates class="mb-5"></dates>
-    <selections></selections>
+    <selections ref="selections"></selections>
   </div>
 </template>
 

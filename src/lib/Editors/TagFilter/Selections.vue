@@ -6,14 +6,17 @@
         <label for="SelectionsFilter">Filter Selections</label>
         <whppt-input id="SelectionsFilter" v-model="filterValue"></whppt-input>
       </div>
-      <div v-for="(item, index) in filteredItems" :key="`${item.name}_selected_${index}`">
-        <div v-if="isSelected(item)" class="flex items-center w-full mb-2">
-          <whppt-checkbox :value="isSelected(item)" :label="item.name || 'Checkbox Label'" @change="check(item)" />
+      <div class="flex flex-col space-y-3">
+        <div>Selected Pages ({{ selectedItems.length }}):</div>
+        <div v-if="selectedItems.length" class="flex flex-col space-y-3">
+          <div v-for="item in selectedItems" :key="`${item._id}`">
+            <whppt-checkbox :value="true" :label="item.header.heading || 'Checkbox Label'" @change="check(item)" />
+          </div>
         </div>
-      </div>
-      <div v-for="(item, index) in filteredItems" :key="`${item.name}_${index}`">
-        <div v-if="!isSelected(item)" class="flex items-center w-full mb-2">
-          <whppt-checkbox :value="isSelected(item)" :label="item.name || 'Checkbox Label'" @change="check(item)" />
+        <div v-if="!selectedItems.length" class="text-sm pl-6">No items selected</div>
+        <div>Filtered Pages:</div>
+        <div v-for="item in unSelectedItems" :key="`${item._id}`">
+          <whppt-checkbox :value="false" :label="item.header.heading || 'Checkbox Label'" @change="check(item)" />
         </div>
       </div>
     </div>
@@ -39,16 +42,15 @@ export default {
   computed: {
     ...mapState('whppt/config', ['domain']),
     ...mapState('whppt/editor', ['selectedComponent']),
-    selectedContentValue() {
-      console.log(
-        '🚀 ~ file: Selections.vue ~ line 38 ~ selectedContentValue ~ this.selectedComponent.value',
-        this.selectedComponent.value
-      );
-      return this.selectedComponent.value || {};
+    selectedItems() {
+      return this.filteredItems.filter((i) => this.isSelected(i));
+    },
+    unSelectedItems() {
+      return this.filteredItems.filter((i) => !this.isSelected(i));
     },
     filteredItems() {
       const filteredItems = filter(this.items, (i) => toLower(i.name).includes(toLower(this.filterValue)));
-      return sortBy(filteredItems, 'name');
+      return sortBy(filteredItems, 'header.heading');
     },
   },
   created() {
@@ -64,9 +66,9 @@ export default {
     loadItems() {
       this.loading = true;
       return this.$axios
-        .$post(`/api/teamMembers/list`, {
+        .$post(`/api/tags/filterList`, {
           domainId: this.domain._id,
-          tagFilters: this.selectedContentValue,
+          tagFilters: this.selectedComponent.value,
         })
         .then((items) => {
           this.items = items;
@@ -77,11 +79,11 @@ export default {
     },
     filterTags() {},
     isSelected(value) {
-      return find(this.selectedContentValue && this.selectedContentValue.selected, (s) => s === value._id);
+      return find(this.selectedComponent.value && this.selectedComponent.value.selected, (s) => s === value._id);
     },
     check(value) {
-      if (find(this.selectedContentValue && this.selectedContentValue.selected, (p) => p === value._id)) {
-        const removed = without(this.selectedContentValue && this.selectedComponent.value['selected'], value._id);
+      if (find(this.selectedComponent.value && this.selectedComponent.value.selected, (p) => p === value._id)) {
+        const removed = without(this.selectedComponent.value && this.selectedComponent.value['selected'], value._id);
         this.setSelectedComponentState({ value: removed, path: 'selected' });
         return;
       }
@@ -89,12 +91,6 @@ export default {
         path: 'selected',
         value: value._id,
       });
-    },
-    watch: {
-      selectedContentValue: function () {
-        console.log('Watch value');
-        this.debouncedLoadItems();
-      },
     },
   },
 };
