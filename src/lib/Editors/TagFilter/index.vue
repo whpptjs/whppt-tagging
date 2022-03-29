@@ -14,10 +14,10 @@
 import { flatMap, map } from 'lodash';
 import { mapState } from 'vuex';
 
-import IncludedTags from './Include';
-import ExcludedTags from './Exclude';
-import Dates from './Dates';
-import Selections from './Selections';
+import Dates from './Dates.vue';
+import ExcludedTags from './Exclude.vue';
+import IncludedTags from './Include.vue';
+import Selections from './Selections.vue';
 
 export default {
   name: 'TagFilter',
@@ -27,14 +27,14 @@ export default {
     Dates,
     Selections,
   },
-  computed: {
-    ...mapState('whppt/config', ['domain']),
-  },
   data() {
     return {
       tags: [],
       loading: false,
     };
+  },
+  computed: {
+    ...mapState('whppt/config', ['domain']),
   },
   mounted() {
     this.load();

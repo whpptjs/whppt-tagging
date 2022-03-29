@@ -5,8 +5,8 @@
       <whppt-autocomplete
         :value="includeValue"
         :items="tags"
-        itemText="id"
-        itemValue="id"
+        item-text="id"
+        item-value="id"
         label="Select Tags to include"
         @select="addTag($event, 'include')"
       />
@@ -30,11 +30,11 @@
 </template>
 
 <script>
-import { without, find } from 'lodash';
-import { mapState, mapActions } from 'vuex';
-
-import WhpptAutocomplete from '@whppt/nuxt/lib/components/ui/components/Autocomplete.vue';
 import Close from '@whppt/nuxt/lib/components/icons/Close.vue';
+import WhpptAutocomplete from '@whppt/nuxt/lib/components/ui/components/Autocomplete.vue';
+import { find, without } from 'lodash';
+import { mapActions, mapState } from 'vuex';
+
 export default {
   name: 'TagFilter',
   components: {
@@ -44,17 +44,17 @@ export default {
   props: {
     tags: { type: Array, default: () => [] },
   },
+  data() {
+    return {
+      includeValue: '',
+    };
+  },
   computed: {
     ...mapState('whppt/config', ['domain']),
     ...mapState('whppt/editor', ['selectedComponent']),
     selectedContentValue() {
       return this.selectedComponent.value;
     },
-  },
-  data() {
-    return {
-      includeValue: '',
-    };
   },
 
   methods: {

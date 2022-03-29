@@ -5,8 +5,8 @@
       <whppt-autocomplete
         :value="excludeValue"
         :items="tags"
-        itemText="id"
-        itemValue="id"
+        item-text="id"
+        item-value="id"
         label="Select Tags to exclude"
         @select="addTag($event, 'exclude')"
       />
@@ -30,11 +30,10 @@
 </template>
 
 <script>
-import { without, find } from 'lodash';
-import { mapState, mapActions } from 'vuex';
-
-import WhpptAutocomplete from '@whppt/nuxt/lib/components/ui/components/Autocomplete.vue';
 import Close from '@whppt/nuxt/lib/components/icons/Close.vue';
+import WhpptAutocomplete from '@whppt/nuxt/lib/components/ui/components/Autocomplete.vue';
+import { find, without } from 'lodash';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'TagFilter',
