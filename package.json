@@ -19,7 +19,7 @@
     "publish-example": "yarn publish -- --access public"
   },
   "dependencies": {
-    "@whppt/nuxt": "^2.0.0-rc61",
+    "@whppt/nuxt": "2.0.0-rc62",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

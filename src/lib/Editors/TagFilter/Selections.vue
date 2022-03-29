@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import WhpptCheckbox from '@whppt/nuxt/lib/components/ui/components/Checkbox';
-import WhpptInput from '@whppt/nuxt/lib/components/ui/components/Input';
+import WhpptCheckbox from '@whppt/nuxt/lib/components/ui/components/Checkbox.vue';
+import WhpptInput from '@whppt/nuxt/lib/components/ui/components/Input.vue';
 import { debounce, filter, find, sortBy, toLower, without } from 'lodash';
 import { mapActions, mapState } from 'vuex';
 
