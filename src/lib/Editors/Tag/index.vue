@@ -2,7 +2,14 @@
   <div>
     <h3 class="text-white">Page Tags</h3>
     <div class="mb-5">
-      <whppt-autocomplete :value="value" :items="tags" itemText="id" itemValue="id" label="Tags" @select="selectTag" />
+      <whppt-autocomplete
+        :value="value"
+        :items="tags"
+        item-text="id"
+        item-value="id"
+        label="Tags"
+        @select="selectTag"
+      />
     </div>
     <div>
       <whppt-table
@@ -12,10 +19,10 @@
         :per-page="20"
         :total="selectedContentValue.length"
       >
-        <template v-slot:item.id="{ item }">
+        <template #item.id="{ item }">
           {{ item }}
         </template>
-        <template v-slot:item.actions="{ item }">
+        <template #item.actions="{ item }">
           <div class="flex items-center justify-end">
             <whppt-button v-if="!item.published" flat @click="removeItem(item)">
               <trash />
@@ -28,16 +35,15 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import { flatMap, map, without } from 'lodash';
+import Trash from '@whppt/nuxt/lib/components/icons/Trash.vue';
 import WhpptAutocomplete from '@whppt/nuxt/lib/components/ui/components/Autocomplete.vue';
-import WhpptTable from '@whppt/nuxt/lib/components/ui/components/Table.vue';
 import WhpptButton from '@whppt/nuxt/lib/components/ui/components/Button.vue';
-
-import Trash from '@whppt/nuxt/lib/components/icons/Trash';
+import WhpptTable from '@whppt/nuxt/lib/components/ui/components/Table.vue';
+import { flatMap, map, without } from 'lodash';
+import { mapActions, mapState } from 'vuex';
 
 export default {
-  name: 'Tag',
+  name: 'TagEditor',
   components: {
     WhpptAutocomplete,
     WhpptTable,
