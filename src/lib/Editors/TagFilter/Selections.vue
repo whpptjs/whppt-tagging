@@ -10,13 +10,21 @@
         <div>Selected Pages ({{ selectedItems.length }}):</div>
         <div v-if="selectedItems.length" class="flex flex-col space-y-3">
           <div v-for="item in selectedItems" :key="`${item._id}`">
-            <whppt-checkbox :value="true" :label="item.header.heading || 'Checkbox Label'" @change="check(item)" />
+            <whppt-checkbox
+              :value="true"
+              :label="(item.header && item.header.heading) || 'Missing Header'"
+              @change="check(item)"
+            />
           </div>
         </div>
         <div v-if="!selectedItems.length" class="text-sm pl-6">No items selected</div>
         <div>Filtered Pages:</div>
         <div v-for="item in unSelectedItems" :key="`${item._id}`">
-          <whppt-checkbox :value="false" :label="item.header.heading || 'Checkbox Label'" @change="check(item)" />
+          <whppt-checkbox
+            :value="false"
+            :label="(item.header && item.header.heading) || 'Missing Header'"
+            @change="check(item)"
+          />
         </div>
       </div>
     </div>

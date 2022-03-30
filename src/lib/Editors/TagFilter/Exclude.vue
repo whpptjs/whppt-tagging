@@ -44,17 +44,17 @@ export default {
   props: {
     tags: { type: Array, default: () => [] },
   },
+  data() {
+    return {
+      excludeValue: '',
+    };
+  },
   computed: {
     ...mapState('whppt/config', ['domain']),
     ...mapState('whppt/editor', ['selectedComponent']),
     selectedContentValue() {
       return this.selectedComponent.value;
     },
-  },
-  data() {
-    return {
-      excludeValue: '',
-    };
   },
 
   methods: {

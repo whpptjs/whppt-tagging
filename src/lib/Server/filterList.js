@@ -1,9 +1,6 @@
 // eslint-disable-next-line no-undef
 module.exports = () => ({
   exec({ $mongo: { $db } }, { domainId, tagFilters, pageIndex = 0, size = 20 }) {
-    console.log('🚀 ~ FilterList ~ domainId', domainId);
-    console.log('🚀 ~ FilterList ~ tagFilter', tagFilters);
-
     const query = {};
     if (domainId && domainId !== 'undefined') query.domainId = domainId;
 
