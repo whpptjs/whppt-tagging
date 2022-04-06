@@ -3,7 +3,7 @@
     <h3>Website Tags</h3>
     <div>
       <div class="flex flex-wrap">
-        <whppt-tabs ref="editorTabs" :activeTab="tab" @changed="tabChanged">
+        <whppt-tabs v-if="!loading" ref="editorTabs" :active-tab="tab" @changed="tabChanged">
           <div v-for="category in categories" :key="category.id" class="w-full">
             <whppt-tab :id="category.id" :name="category.id"> </whppt-tab>
           </div>
@@ -47,12 +47,12 @@
           :per-page="20"
           :total="activeCategory.values.length"
         >
-          <template v-slot:item.slug="{ item }">
+          <template #item.slug="{ item }">
             <whppt-input id="new-item-slug" v-model="item.slug"></whppt-input>
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template #item.actions="{ item }">
             <div class="flex items-center justify-end">
-              <whppt-button v-if="!item.published" flat @click="save" class="mr-5">
+              <whppt-button v-if="!item.published" flat class="mr-5" @click="save">
                 <save />
               </whppt-button>
               <whppt-button v-if="!item.published" flat @click="removeValue(item.id)">
@@ -80,17 +80,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { remove, findIndex } from 'lodash';
-import WhpptInput from '@whppt/nuxt/lib/components/ui/components/Input.vue';
-// import WhpptSelect from '@whppt/nuxt/lib/components/ui/components/Select.vue';
-import WhpptButton from '@whppt/nuxt/lib/components/ui/components/Button.vue';
-// import WhpptCard from '@whppt/nuxt/lib/components/ui/components/Card.vue';
-import WhpptTabs from '@whppt/nuxt/lib/components/ui/components/Tabs.vue';
-import WhpptTable from '@whppt/nuxt/lib/components/ui/components/Table.vue';
-import WhpptTab from '@whppt/nuxt/lib/components/ui/components/Tab.vue';
-import Trash from '@whppt/nuxt/lib/components/icons/Trash';
 import Save from '@whppt/nuxt/lib/components/icons/Save';
+import Trash from '@whppt/nuxt/lib/components/icons/Trash';
+import WhpptButton from '@whppt/nuxt/lib/components/ui/components/Button.vue';
+import WhpptInput from '@whppt/nuxt/lib/components/ui/components/Input.vue';
+import WhpptTab from '@whppt/nuxt/lib/components/ui/components/Tab.vue';
+import WhpptTable from '@whppt/nuxt/lib/components/ui/components/Table.vue';
+import WhpptTabs from '@whppt/nuxt/lib/components/ui/components/Tabs.vue';
+import { findIndex, remove } from 'lodash';
+import { mapState } from 'vuex';
+// import WhpptSelect from '@whppt/nuxt/lib/components/ui/components/Select.vue';
+// import WhpptCard from '@whppt/nuxt/lib/components/ui/components/Card.vue';
 
 export default {
   name: 'TagSettings',

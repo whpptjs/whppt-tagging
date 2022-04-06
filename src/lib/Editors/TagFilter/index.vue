@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="my-2">
-      <h3 class="text-white">Filter Component By</h3>
+      <h4 class="text-white">Filter Component By</h4>
     </div>
     <included-tags :tags="tags" class="mb-5" @changed="$refs.selections.debouncedLoadItems()"></included-tags>
     <excluded-tags :tags="tags" class="mb-5" @changed="$refs.selections.debouncedLoadItems()"></excluded-tags>
-    <dates class="mb-5"></dates>
+    <!-- <dates class="mb-5"></dates> -->
     <selections ref="selections"></selections>
   </div>
 </template>

@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="my-2">
-      <h4 class="text-white">Selections</h4>
+      <!-- <h4 class="text-white">Selections</h4> -->
       <div class="my-4">
         <label for="SelectionsFilter">Filter Selections</label>
         <whppt-input id="SelectionsFilter" v-model="filterValue"></whppt-input>
       </div>
       <div class="flex flex-col space-y-3">
         <div>Selected Pages ({{ selectedItems.length }}):</div>
-        <div v-if="selectedItems.length" class="flex flex-col space-y-3">
-          <div v-for="item in selectedItems" :key="`${item._id}`">
+        <div v-if="selectedItems.length" class="flex flex-wrap space-y-3">
+          <div v-for="item in selectedItems" :key="`${item._id}`" class="w-6/12">
             <whppt-checkbox
               :value="true"
               :label="(item.header && item.header.heading) || 'Missing Header'"
@@ -19,12 +19,14 @@
         </div>
         <div v-if="!selectedItems.length" class="text-sm pl-6">No items selected</div>
         <div>Filtered Pages:</div>
-        <div v-for="item in unSelectedItems" :key="`${item._id}`">
-          <whppt-checkbox
-            :value="false"
-            :label="(item.header && item.header.heading) || 'Missing Header'"
-            @change="check(item)"
-          />
+        <div class="flex flex-wrap">
+          <div v-for="item in unSelectedItems" :key="`${item._id}`" class="w-6/12 mb-2">
+            <whppt-checkbox
+              :value="false"
+              :label="(item.header && item.header.heading) || 'Missing Header'"
+              @change="check(item)"
+            />
+          </div>
         </div>
       </div>
     </div>

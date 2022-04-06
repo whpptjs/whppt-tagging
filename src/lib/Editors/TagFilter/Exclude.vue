@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h4 class="text-white">Tags to exclude</h4>
-    <div class="mb-5">
+    <div class="mb-2">
       <whppt-autocomplete
         :value="excludeValue"
         :items="tags"

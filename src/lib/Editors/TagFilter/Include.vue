@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h4 class="text-white">Tags to include</h4>
-    <div class="mb-5">
+    <div class="mb-2">
       <whppt-autocomplete
         :value="includeValue"
         :items="tags"
@@ -11,19 +10,17 @@
         @select="addTag($event, 'include')"
       />
     </div>
-    <div>
-      <div>Current Included Tags:</div>
-      <div class="flex flex-wrap items-center">
-        <div
-          v-for="includedTag in selectedContentValue.include"
-          :key="includedTag"
-          class="bg-white rounded-full text-black px-4 flex items-center mr-2 mb-2"
-        >
-          <p class="mr-2">
-            {{ includedTag }}
-          </p>
-          <button @click="removeTag(includedTag, 'include')"><close class="w-4" /></button>
-        </div>
+    <div>Current Included Tags:</div>
+    <div class="flex flex-wrap items-center">
+      <div
+        v-for="includedTag in selectedContentValue.include"
+        :key="includedTag"
+        class="bg-white rounded-full text-black px-4 flex items-center mr-2 mb-2"
+      >
+        <p class="mr-2">
+          {{ includedTag }}
+        </p>
+        <button @click="removeTag(includedTag, 'include')"><close class="w-4" /></button>
       </div>
     </div>
   </div>
