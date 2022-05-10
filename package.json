@@ -1,6 +1,6 @@
 {
   "name": "@whppt/tagging",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Tagging for Whppt",
   "main": "src/index",
   "license": "MIT",
@@ -33,6 +33,7 @@
     "eslint-plugin-vue": "^8.5.0",
     "jest": "^27.5.1",
     "prettier": "^2.6.0",
+    "standard-version": "^9.3.2",
     "yarn-run-all": "^3.1.1"
   },
   "files": [
