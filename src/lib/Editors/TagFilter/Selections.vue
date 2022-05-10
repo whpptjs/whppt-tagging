@@ -2,10 +2,6 @@
   <div>
     <div class="my-2">
       <!-- <h4 class="text-white">Selections</h4> -->
-      <div class="my-4">
-        <label for="SelectionsFilter">Filter Selections</label>
-        <whppt-input id="SelectionsFilter" v-model="filterValue"></whppt-input>
-      </div>
       <div class="flex flex-col space-y-3">
         <div>Selected Pages ({{ selectedItems.length }}):</div>
         <div v-if="selectedItems.length" class="flex flex-wrap space-y-3">
@@ -19,6 +15,9 @@
         </div>
         <div v-if="!selectedItems.length" class="text-sm pl-6">No items selected</div>
         <div>Filtered Pages:</div>
+        <div class="my-4">
+          <whppt-input id="SelectionsFilter" v-model="filterValue"></whppt-input>
+        </div>
         <div class="flex flex-wrap">
           <div v-for="item in unSelectedItems" :key="`${item._id}`" class="w-6/12 mb-2">
             <whppt-checkbox
@@ -47,28 +46,34 @@ export default {
       loading: false,
       filterValue: '',
       items: [],
+      selectedItems: [],
     };
   },
   computed: {
     ...mapState('whppt/config', ['domain']),
     ...mapState('whppt/editor', ['selectedComponent']),
-    selectedItems() {
-      return this.filteredItems.filter((i) => this.isSelected(i));
-    },
+    // selectedItems() {
+    //   return this.items.filter((i) => this.isSelected(i));
+    // },
     unSelectedItems() {
-      return this.filteredItems.filter((i) => !this.isSelected(i));
+      return this.items.filter((i) => !this.isSelected(i));
     },
-    filteredItems() {
-      const filteredItems = filter(this.items, (i) => toLower(i.name).includes(toLower(this.filterValue)));
-      return sortBy(filteredItems, 'header.heading');
+  },
+  watch: {
+    filterValue() {
+      this.loadItems();
+    },
+    'selectedComponent.value.selected'() {
+      this.loadSelectedItems();
     },
   },
   created() {
     this.debouncedLoadItems = debounce(this.loadItems, 500);
   },
   mounted() {
-    this.filterTags();
+    // this.filterTags();
     this.debouncedLoadItems();
+    this.loadSelectedItems();
   },
   methods: {
     ...mapActions('whppt/editor', ['pushSelectedComponentState', 'setSelectedComponentState']),
@@ -79,6 +84,7 @@ export default {
         .$post(`/api/tags/filterList`, {
           domainId: this.domain._id,
           tagFilters: this.selectedComponent.value,
+          headerFilter: this.filterValue,
         })
         .then((items) => {
           this.items = items;
@@ -87,7 +93,24 @@ export default {
           this.loading = false;
         });
     },
-    filterTags() {},
+    loadSelectedItems() {
+      this.loading = true;
+      if (!this.selectedComponent?.value?.selected?.length) {
+        this.selectedItems = [];
+        return;
+      }
+      return this.$axios
+        .$post(`/api/tags/filterListSelected`, {
+          domainId: this.domain._id,
+          tagFilters: this.selectedComponent.value,
+        })
+        .then((items) => {
+          this.selectedItems = items;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     isSelected(value) {
       return find(this.selectedComponent.value && this.selectedComponent.value.selected, (s) => s === value._id);
     },
