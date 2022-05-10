@@ -16,7 +16,10 @@
     "test:prettier": "prettier \"src/**/*.ts\" --list-different",
     "test:unit": "jest",
     "watch:test": "jest --watch",
-    "publish-example": "yarn publish -- --access public"
+    "publish-example": "yarn publish -- --access public",
+    "release:patch": "standard-version --release-as patch && yarn publish && git push --follow-tags",
+    "release:minor": "standard-version --release-as minor && yarn publish && git push --follow-tags",
+    "release:major": "standard-version --release-as major && yarn publish && git push --follow-tags"
   },
   "dependencies": {
     "@whppt/nuxt": "2.0.0-rc62",
