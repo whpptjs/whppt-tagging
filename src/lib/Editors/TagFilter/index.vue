@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="my-2">
+    <div class="my-2 whppt-tagging-editor">
       <h4 class="text-white">Filter Component By</h4>
     </div>
     <included-tags :tags="tags" class="mb-5" @changed="$refs.selections.debouncedLoadItems()"></included-tags>
