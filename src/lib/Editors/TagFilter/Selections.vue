@@ -85,7 +85,6 @@ export default {
           domainId: this.domain._id,
           tagFilters: this.selectedComponent.value,
           headerFilter: this.filterValue,
-          limit: 16
         })
         .then((items) => {
           this.items = items;
@@ -104,6 +103,7 @@ export default {
         .$post(`/api/tags/filterListSelected`, {
           domainId: this.domain._id,
           tagFilters: this.selectedComponent.value,
+          limit: 16,
         })
         .then((items) => {
           this.selectedItems = items;
