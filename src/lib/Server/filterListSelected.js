@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-undef
 module.exports = () => ({
-  exec({ $mongo: { $db } }, { domainId, tagFilters }) {
+  exec({ $mongo: { $db } }, { domainId, tagFilters, limit = 8 }) {
     const query = {};
     if (domainId && domainId !== 'undefined') query.domainId = domainId;
 
@@ -15,6 +15,6 @@ module.exports = () => ({
     }
 
     // TODO: Look at all page type collections
-    return $db.collection('pages').find(query).limit(8).toArray();
+    return $db.collection('pages').find(query).limit(limit).toArray();
   },
 });
