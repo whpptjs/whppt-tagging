@@ -85,6 +85,7 @@ export default {
           domainId: this.domain._id,
           tagFilters: this.selectedComponent.value,
           headerFilter: this.filterValue,
+          limit: 16
         })
         .then((items) => {
           this.items = items;
