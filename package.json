@@ -22,7 +22,7 @@
     "release:major": "standard-version --release-as major && yarn publish && git push --follow-tags"
   },
   "dependencies": {
-    "@whppt/nuxt": "2.0.0-rc62",
+    "@whppt/nuxt": "^2.0.0-rc.85",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
