@@ -1,6 +1,6 @@
 {
   "name": "@whppt/tagging",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Tagging for Whppt",
   "main": "src/index",
   "license": "MIT",
