@@ -1,6 +1,6 @@
 {
   "name": "@whppt/tagging",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Tagging for Whppt",
   "main": "src/index",
   "license": "MIT",
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@whppt/nuxt": "^2.0.0-rc.85",
+    "@whppt/tagging": "^0.1.1",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
