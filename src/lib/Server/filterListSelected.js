@@ -5,7 +5,7 @@ module.exports = () => ({
     if (domainId && domainId !== 'undefined') query.domainId = domainId;
 
     if (tagFilters && !tagFilters.selected.length) {
-      if (tagFilters.include.length) query.tags = { ...(query.tags || {}), $all: tagFilters.include };
+      if (tagFilters.include.length) query.tags = { $in: tagFilters.include };
 
       if (tagFilters.exclude.length) query.tags = { ...(query.tags || {}), $nin: tagFilters.exclude };
     }
