@@ -674,6 +674,31 @@
   resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.1.3.tgz#a44c52e8fa6d22f84db3abdcdd0be5135b7dd7cf"
   integrity sha512-79InfO2xHv+WHIrH1bHXQUiQD/wMls9qBk6WVwGCbdwP7/3zINtvqPNMtmSHXsIKjvUAHc8L0ouOj6ZQQRmcXg==
 
+"@whppt/nuxt@^2.0.0":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@whppt/nuxt/-/nuxt-2.0.1.tgz#36d58d232367994c119c08ffa12eccc9ad64c45e"
+  integrity sha512-WlivgHnnFjgWupE6DzLbJnxG7atCB7LlSM+BpY84W169qJG+NJG+fdQglbXctcJqrlggwe0i6uFeH7dnfeb+rQ==
+  dependencies:
+    "@nuxtjs/toast" "^3.3.0"
+    axios "^0.21.1"
+    dayjs "^1.9.4"
+    deep-object-diff "^1.1.0"
+    js-cookie "^2.2.1"
+    lodash "^4.17.15"
+    nanoid "^3.1.23"
+    node-sass "4.14.1"
+    sass-loader "10.1.1"
+    slugify "^1.3.6"
+    tiptap "^1.27.1"
+    tiptap-extensions "^1.29.1"
+    v-calendar "^2.4.1"
+    v-tooltip "^2.0.3"
+    vue "^2.6.11"
+    vue-advanced-cropper "^0.16.1"
+    vue-deepset "^0.6.3"
+    vuelidate "^0.7.6"
+    vuex "^3.1.2"
+
 "@whppt/nuxt@^2.0.0-rc.85":
   version "2.0.0-rc.85"
   resolved "https://registry.yarnpkg.com/@whppt/nuxt/-/nuxt-2.0.0-rc.85.tgz#d0d7d018d75531808b61642f30e7623c14387f6e"
