@@ -1,16 +1,19 @@
 <template>
   <div>
     <div class="my-2">
-      <!-- <h4 class="text-white">Selections</h4> -->
       <div class="flex flex-col space-y-3">
         <div>Selected Pages ({{ selectedItems.length }}):</div>
-        <div v-if="selectedItems.length" class="flex flex-wrap space-y-3">
-          <div v-for="item in selectedItems" :key="`${item._id}`" class="w-6/12">
+        <div v-if="selectedItems.length" class="mb-3">
+          <div v-for="(item, index) in selectedItems" :key="index" class="flex justify-between mb-2">
             <whppt-checkbox
               :value="true"
               :label="(item.header && item.header.heading) || 'Missing Header'"
               @change="check(item)"
             />
+            <div class="flex gap-3">
+              <whppt-button @click="moveUp(item, index)"><arrow-up /></whppt-button>
+              <whppt-button @click="moveDown(item, index)"><arrow-down /></whppt-button>
+            </div>
           </div>
         </div>
         <div v-if="!selectedItems.length" class="text-sm pl-6">No items selected</div>
@@ -35,12 +38,15 @@
 <script>
 import WhpptCheckbox from '@whppt/nuxt/lib/components/ui/components/Checkbox.vue';
 import WhpptInput from '@whppt/nuxt/lib/components/ui/components/Input.vue';
-import { debounce, filter, find, sortBy, toLower, without } from 'lodash';
+import WhpptButton from '@whppt/nuxt/lib/components/ui/components/Button.vue';
+import { debounce, find, without, clone } from 'lodash';
 import { mapActions, mapState } from 'vuex';
+import ArrowUp from '@whppt/nuxt/lib/components/icons/ArrowUp.vue';
+import ArrowDown from '@whppt/nuxt/lib/components/icons/ArrowDown.vue';
 
 export default {
   name: 'TagFilterSelections',
-  components: { WhpptCheckbox, WhpptInput },
+  components: { WhpptCheckbox, WhpptInput, ArrowUp, ArrowDown, WhpptButton },
   data() {
     return {
       loading: false,
@@ -52,9 +58,6 @@ export default {
   computed: {
     ...mapState('whppt/config', ['domain']),
     ...mapState('whppt/editor', ['selectedComponent']),
-    // selectedItems() {
-    //   return this.items.filter((i) => this.isSelected(i));
-    // },
     unSelectedItems() {
       return this.items.filter((i) => !this.isSelected(i));
     },
@@ -71,13 +74,28 @@ export default {
     this.debouncedLoadItems = debounce(this.loadItems, 500);
   },
   mounted() {
-    // this.filterTags();
     this.debouncedLoadItems();
     this.loadSelectedItems();
   },
   methods: {
     ...mapActions('whppt/editor', ['pushSelectedComponentState', 'setSelectedComponentState']),
+    moveUp(item, index) {
+      const _items = clone(this.selectedComponent.value.selected);
 
+      _items.splice(index, 1);
+      _items.splice(index - 1, 0, item._id);
+
+      this.setSelectedComponentState({ value: _items, path: 'selected', replace: true });
+      this.loadSelectedItems();
+    },
+    moveDown(item, index) {
+      const _items = clone(this.selectedComponent.value.selected);
+      _items.splice(index, 1);
+      _items.splice(index + 1, 0, item._id);
+
+      this.setSelectedComponentState({ value: _items, path: 'selected', replace: true });
+      this.loadSelectedItems();
+    },
     loadItems() {
       this.loading = true;
       return this.$axios
@@ -95,6 +113,7 @@ export default {
     },
     loadSelectedItems() {
       this.loading = true;
+
       if (!this.selectedComponent?.value?.selected?.length) {
         this.selectedItems = [];
         return;
@@ -102,7 +121,7 @@ export default {
       return this.$axios
         .$post(`/api/tags/filterListSelected`, {
           domainId: this.domain._id,
-          tagFilters: this.selectedComponent.value,
+          tagFilters: { ...this.selectedComponent.value, ignoreSort: true },
           limit: 16,
         })
         .then((items) => {
