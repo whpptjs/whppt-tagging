@@ -79,19 +79,13 @@ export default {
   methods: {
     ...mapActions('whppt/editor', ['pushSelectedComponentState', 'setSelectedComponentState']),
     removeItem(item) {
-      console.log('🚀 ~ file: index.vue ~ line 76 ~ removeItem ~ item', item);
       if (window.confirm('Are you sure?')) {
         const removed = without(this.selectedComponent.value[this.selectedComponent.property], item);
-        console.log('🚀 ~ file: index.vue ~ line 78 ~ removeItem ~ removed', removed);
 
         this.setSelectedComponentState({ value: removed, path: this.selectedComponent.property });
       }
     },
     selectTag(value) {
-      console.log(
-        '🚀 ~ file: index.vue ~ line 54 ~ selectTag ~ this.selectedComponent.property',
-        this.selectedComponent.property
-      );
       this.pushSelectedComponentState({
         path: this.selectedComponent.property,
         value: value.id,
@@ -100,7 +94,6 @@ export default {
     load() {
       this.loading = true;
       return this.$axios.$get(`/api/tags/fetch?domainId=${this.domain._id}`).then((categories) => {
-        console.log('🚀 ~ file: index.vue ~ line 49 ~ returnthis.$axios.$get ~ categories', categories);
         this.categories = categories;
         this.loading = false;
       });
