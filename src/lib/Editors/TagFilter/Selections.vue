@@ -6,6 +6,7 @@
         <div v-if="selectedItems.length" class="mb-3">
           <div v-for="(item, index) in selectedItems" :key="index" class="flex justify-between mb-2">
             <whppt-checkbox
+              v-if="item"
               :value="true"
               :label="(item.header && item.header.heading) || 'Missing Header'"
               @change="check(item)"
@@ -24,6 +25,7 @@
         <div class="flex flex-wrap">
           <div v-for="item in unSelectedItems" :key="`${item._id}`" class="w-6/12 mb-2">
             <whppt-checkbox
+              v-if="item"
               :value="false"
               :label="(item.header && item.header.heading) || 'Missing Header'"
               @change="check(item)"
@@ -59,6 +61,7 @@ export default {
     ...mapState('whppt/config', ['domain']),
     ...mapState('whppt/editor', ['selectedComponent']),
     unSelectedItems() {
+      console.log('🚀 ~ file: Selections.vue ~ line 64 ~ unSelectedItems ~ this.items', this.items);
       return this.items.filter((i) => !this.isSelected(i));
     },
   },
@@ -106,6 +109,7 @@ export default {
         })
         .then((items) => {
           this.items = items;
+          console.log('🚀 ~ file: Selections.vue ~ line 112 ~ .then ~ this.items', this.items.length);
         })
         .finally(() => {
           this.loading = false;
