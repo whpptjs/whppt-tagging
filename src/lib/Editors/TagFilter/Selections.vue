@@ -61,7 +61,6 @@ export default {
     ...mapState('whppt/config', ['domain']),
     ...mapState('whppt/editor', ['selectedComponent']),
     unSelectedItems() {
-      console.log('🚀 ~ file: Selections.vue ~ line 64 ~ unSelectedItems ~ this.items', this.items);
       return this.items.filter((i) => !this.isSelected(i));
     },
   },
@@ -109,7 +108,6 @@ export default {
         })
         .then((items) => {
           this.items = items;
-          console.log('🚀 ~ file: Selections.vue ~ line 112 ~ .then ~ this.items', this.items.length);
         })
         .finally(() => {
           this.loading = false;
