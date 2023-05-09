@@ -1,4 +1,4 @@
-import keyBy from 'lodash/keyBy';
+import { compact, keyBy } from 'lodash';
 // eslint-disable-next-line no-undef
 module.exports = () => ({
   exec({ $mongo: { $db } }, { domainId, tagFilters }) {
@@ -24,9 +24,11 @@ module.exports = () => ({
       if (!tagFilters.ignoreSort) return items;
 
       const _keyedItems = keyBy(items, '_id');
-      return tagFilters.selected.map((s) => {
-        return _keyedItems[s];
-      });
+      return compact(
+        tagFilters.selected.map((s) => {
+          return _keyedItems[s];
+        })
+      );
     });
   },
 });

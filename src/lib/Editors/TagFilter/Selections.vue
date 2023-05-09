@@ -4,11 +4,11 @@
       <div class="flex flex-col space-y-3">
         <div>Selected Pages ({{ selectedItems.length }}):</div>
         <div v-if="selectedItems.length" class="mb-3">
-          <div v-for="(item, index) in selectedItems" :key="index" class="flex justify-between mb-2">
+          <div v-for="(item, index) in selectedItems" :key="index" class="flex justify-between mb-2 selected-pages">
             <whppt-checkbox
               v-if="item"
               :value="true"
-              :label="(item.header && item.header.heading) || 'Missing Header'"
+              :label="(item.header && (item.header.heading || item.header.title)) || 'Missing Header'"
               @change="check(item)"
             />
             <div class="flex gap-3">
@@ -23,11 +23,11 @@
           <whppt-input id="SelectionsFilter" v-model="filterValue"></whppt-input>
         </div>
         <div class="flex flex-wrap">
-          <div v-for="item in unSelectedItems" :key="`${item._id}`" class="w-6/12 mb-2">
+          <div v-for="item in unSelectedItems" :key="`${item._id}`" class="w-6/12 mb-2 filtered-selections">
             <whppt-checkbox
               v-if="item"
               :value="false"
-              :label="(item.header && item.header.heading) || 'Missing Header'"
+              :label="(item.header && (item.header.heading || item.header.title)) || 'Missing Header'"
               @change="check(item)"
             />
           </div>
@@ -150,3 +150,20 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.selected-pages,
+.filtered-selections {
+  .whppt-checkbox {
+    height: auto !important;
+
+    label {
+      height: auto !important;
+
+      span {
+        line-height: 1 !important;
+      }
+    }
+  }
+}
+</style>
