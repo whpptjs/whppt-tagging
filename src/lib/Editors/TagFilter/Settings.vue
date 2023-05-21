@@ -55,14 +55,14 @@ export default {
           text: 'Publish Date (earliest)',
           sortType: 'date',
           fields: {
-            publishDate: 1,
+            lastPublished: 1,
           },
         },
         {
           text: 'Publish Date (latest)',
           sortType: 'date',
           fields: {
-            publishDate: -1,
+            lastPublished: -1,
           },
         },
       ],
